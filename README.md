@@ -43,7 +43,7 @@ combined.csv
 
 Plots:
 
-alignments_found_plus_strand.png
+alignments_found_strand.png
 
 alignments_venn.png
 
