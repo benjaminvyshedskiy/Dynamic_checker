@@ -32,6 +32,7 @@ python comparison.py \
 After running comparison.py, your output_folder will contain:
 
 CSVs:
+
 crisprme_only.csv
 
 dynamic_only.csv
@@ -40,7 +41,8 @@ both_matched.csv
 
 combined.csv
 
-Plots
+Plots:
+
 alignments_found_plus_strand.png
 
 alignments_venn.png
