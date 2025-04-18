@@ -170,7 +170,7 @@ def main():
     plt.bar(categories, counts)
     plt.title("Amount of possible alignments found")
     plt.ylabel("Number of Alignments")
-    plt.savefig(f"{Output_folder}/alignments_found_plus_strand.png")
+    plt.savefig(f"{Output_folder}/alignments_found.png")
     plt.close()
 
     plt.figure(figsize=(6, 6))
