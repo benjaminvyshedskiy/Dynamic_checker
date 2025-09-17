@@ -60,6 +60,7 @@ def needleman_wunsch_all_alignments(
         for j in range(1, n+1):
             candidates = []
             # Diagonal
+            
             for (mm, dg, rg) in dp_cells[i-1][j-1]:
                 mis = 0 if iupac_match(RNA[i-1], DNA[j-1]) else 1
                 new = (mm+mis, dg, rg)
@@ -80,7 +81,6 @@ def needleman_wunsch_all_alignments(
                     new, cost = (mm, dg, rg+1), dp_score[i][j-1] + 1
                 if new[2] <= max_RNA_gaps:
                     candidates.append((cost, new, 'left', i, j-1))
-
             if not candidates:
                 continue
 
@@ -88,7 +88,6 @@ def needleman_wunsch_all_alignments(
             dp_score[i][j] = best
             cell = {}
             for cost, cnt, move, pi, pj in candidates:
-                if cost == best:
                     cell.setdefault(cnt, []).append((move, pi, pj))
             dp_cells[i][j] = cell
 
@@ -143,7 +142,7 @@ def clear_csv(path):
 
 def scan(
     RNA, DNA, Strand,output_file,
-    CHR=22,
+    CHR=1,
     max_mismatches=4,
     max_DNA_gaps=1,
     max_RNA_gaps=1
@@ -161,7 +160,7 @@ def scan(
         for start in range(0, len(DNA) - L + max_DNA_gaps + 1):
             if start%10000==0:print(start)
             window = DNA[start : start + L + max_RNA_gaps]
-            if "N" in window:
+            if "N" in window or "n" in window:
                 continue
             hits = needleman_wunsch_all_alignments(
                 RNA, window,
@@ -188,11 +187,12 @@ def scan(
 
 if __name__ == "__main__":
     #Path to file
-    record = SeqIO.read("chr22.enriched.fa", "fasta")
+    record = SeqIO.read("chr1.enriched.fa", "fasta")
     DNA = str(record.seq)
     #Write guide
     Guide = "CTAACAGTTGCTTTTATCACNGG"
-    output_file = "result.csv"
+    output_file = "checking_results.csv"
     clear_csv(output_file)
-    scan(Guide, DNA, Strand="+",output_file=output_file, CHR=22)
-    scan(Guide, reverse_complement(DNA), Strand="-", output_file=output_file,CHR=22)
+    
+    scan(Guide, DNA, Strand="+",output_file=output_file, CHR=1)
+    scan(Guide, reverse_complement(DNA), Strand="-", output_file=output_file,CHR=1)
